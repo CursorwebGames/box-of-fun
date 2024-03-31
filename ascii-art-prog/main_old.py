@@ -64,6 +64,7 @@ for y_idx in range(0, hei // downscale):
 
 output_image.save("output.png")
 
+""" use this to actually get text output """
 # out = ""
 
 # for y_idx in range(0, hei // downscale):

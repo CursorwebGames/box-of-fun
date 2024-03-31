@@ -1,4 +1,4 @@
-IMAGE_NAME = "duo.png"
+IMAGE_NAME = "husbando.png"
 """ from inputs/... """
 
 DOWNSCALE = 5
@@ -70,17 +70,3 @@ for y_idx in range(0, hei // DOWNSCALE):
 
 
 output_image.save(f"outputs/{IMAGE_NAME}")
-
-# out = ""
-
-# for y_idx in range(0, hei // downscale):
-#     for x_idx in range(0, wid // downscale):
-#         y, x = y_idx * downscale, x_idx * downscale
-
-#         avg = round(sum([contrastify(p) for p in pixels[x, y]]) / 3)
-#         closest = get_char(avg)
-
-#         out += closest * 2
-#     out += "\n"
-
-# print(out)

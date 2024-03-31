@@ -64,4 +64,4 @@ for yi in range(0, HEI // YK):
 brightness_values = sorted(brightness_values, key=lambda x: x[0])
 print([v for _, v in brightness_values])
 
-im.save("out.png")
+im.save("char-out.png")

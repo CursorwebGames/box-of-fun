@@ -1,3 +1,5 @@
+## STANDALONE EXPORT
+
 from random import randint, choice
 from sys import exit
 from typing import Callable
