@@ -1,11 +1,26 @@
-IMAGE_NAME = "husbando.png"
+print("Upload a file into the ascii-art-prog/inputs/ folder.")
+print(
+    "Then, enter in the name of the file (without the folder extension, e.g. image.png)"
+)
+
+IMAGE_NAME = input("File name: ")
 """ from inputs/... """
 
-DOWNSCALE = 5
+print("\nDownscale amount, lower = faster, higher = better quality (5 recommended)")
+DOWNSCALE = int(input("Amount (enter for default): ") or 5)
 """ Lower the downscale, less resize => better, recommend 5 """
 
-STEPS_OF_COLOR = 3
+print(
+    "\nSteps of color, more steps of color = less contrast in ascii letters, but more vibrant colors in image (3 recommended)"
+)
+STEPS_OF_COLOR = int(input("Amount (enter for default): ") or 3)
 """ more steps of color = less contrast in characters, but more in color"""
+
+SHADOW_EFFECT = input("Shadow effect for a more organic image? (y/n) ") == "y"
+
+SAVE_TEXT_FILE = input("Save an extra text file of ascii art? (y/n) ") == "y"
+
+GRAYSCALE = input("Grayscale image? (y/n) ") == "y"
 
 
 brightness = list(
@@ -26,6 +41,7 @@ def contrastify(n):
 
 
 from PIL import Image, ImageDraw, ImageFont
+from random import randint
 
 inp_im = Image.open(f"inputs/{IMAGE_NAME}")
 """ Input image """
@@ -62,11 +78,43 @@ for y_idx in range(0, hei // DOWNSCALE):
         avg = round(sum([contrastify(p) for p in pixels[x, y]]) / 3)
         char = get_char(avg)
 
-        # ctx.text(
-        #     (x_idx * XK + XK / 2, y_idx * YK + YK / 2), char * 2, fill=color, font=font
-        # )
-        ctx.text((x_idx * XK, y_idx * YK), char * 2, fill=color, font=font)
-        # ctx.text((x_idx * XK, y_idx * YK), char * 2, fill=(255, 255, 255), font=font)
+        if not GRAYSCALE:
+            if SHADOW_EFFECT:
+                ctx.text(
+                    (
+                        x_idx * XK + XK / 2,
+                        y_idx * YK + YK / 2,
+                    ),
+                    char * 2,
+                    fill=color,
+                    font=font,
+                )
+            ctx.text((x_idx * XK, y_idx * YK), char * 2, fill=color, font=font)
+        else:
+            ctx.text(
+                (x_idx * XK, y_idx * YK), char * 2, fill=(255, 255, 255), font=font
+            )
 
 
 output_image.save(f"outputs/{IMAGE_NAME}")
+
+print(f"Saved image to ascii-art-prog/outputs/{IMAGE_NAME}")
+
+if SAVE_TEXT_FILE:
+    out = ""
+    for y_idx in range(0, hei // DOWNSCALE):
+        for x_idx in range(0, wid // DOWNSCALE):
+            y, x = y_idx * DOWNSCALE, x_idx * DOWNSCALE
+
+            color = pixels[x, y]
+            avg = round(sum([contrastify(p) for p in pixels[x, y]]) / 3)
+            char = get_char(avg)
+
+            out += char * 2
+
+        out += "\n"
+
+    with open(f"outputs/{IMAGE_NAME}.txt", "w") as f:
+        f.write(out)
+
+    print(f"Saved text file to ascii-art-prog/outputs/{IMAGE_NAME}.txt")
