@@ -6,7 +6,7 @@ print(
 IMAGE_NAME = input("File name: ")
 """ from inputs/... """
 
-print("\nDownscale amount, lower = faster, higher = better quality (5 recommended)")
+print("\nDownscale amount, higher = faster, lower = better quality (5 recommended)")
 DOWNSCALE = int(input("Amount (enter for default): ") or 5)
 """ Lower the downscale, less resize => better, recommend 5 """
 
