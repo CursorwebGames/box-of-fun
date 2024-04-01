@@ -67,13 +67,13 @@ kc = Catgirl()
 def meeting():
     print("You: Hi.")
     options(
-        "Fuck off and die, you're an insufferable prick, you don't deserve my time or attention.",
+        "Who are you? You're kinda weird tbh nya~",
         [
             (
-                "Go fuck yourself, why would your mother give birth to such a pos like you?",
+                "Yeah you're pretty weird too actually",
                 pos_choice,
             ),
-            ("I want to fuck you", horny_choice),
+            ("Please marry me", horny_choice),
         ],
     )
 
@@ -82,10 +82,10 @@ def pos_choice():
     kc.incr_rizz()
     if randint(0, 1):
         options(
-            "Go fuck yourself, your mother birthed you an ungrateful cunt",
+            "Please go away",
             [
                 ("Go on a date with me", end_meeting),
-                ("Fuck you, I'll see you soon", end_meeting),
+                ("No, I'll see you soon", end_meeting),
             ],
         )
     else:
@@ -99,7 +99,7 @@ def horny_choice():
     kc.decr_rizz()
     if randint(0, 1):
         options(
-            "Go to horny jail you gooner",
+            "Uh, no, weirdo",
             [
                 ("How about a date first?", end_meeting),
                 ("Please just give me a chance", end_meeting),
@@ -141,7 +141,7 @@ def no_spanish_water():
         "He's clearly speaking Fr*nch how do you not know how to speak Fr*nch?? Baka",
         [
             ("Erm, actually, he's speaking in spanish", nerd_spanish),
-            ("Fuck you then go talk to him yourself", rude_spanish),
+            ("Go talk to him yourself then", rude_spanish),
         ],
     )
 
@@ -182,7 +182,7 @@ def spanish_water():
         "Wow I didn't know you spoke Fr*nch that's so hot",
         [
             ("はい、かっこいいヒトです！", ew_japanese),
-            ("That's spanish you idiot", not_spanish),
+            ("That's spanish actually", not_spanish),
         ],
     )
 
@@ -198,8 +198,8 @@ def ew_japanese():
 def not_spanish():
     kc.incr_rizz()
     options(
-        "Okay, well I can speak some spanish too: joder eres un pendejo",
-        [("Fuck you. What do you want for dinner?", order_steak_pre)],
+        "Okay, well I can speak some spanish too: eres tonto",
+        [("Meanie. What do you want for dinner?", order_steak_pre)],
     )
 
 
@@ -339,12 +339,11 @@ def hangman_game():
     words = [
         "cat",
         "kitty",
-        "the quick brown fox jumps over the lazy dog",
+        "hello world",
         "rizz",
-        "jason ding",
-        "ap biology",
-        "bloodbath jumpscare",
-        "wordle",
+        "alphabet",
+        "jumpscare",
+        "girlfriend",
         "baka",
     ]
 
@@ -444,7 +443,7 @@ def piano_performance_date():
     options(
         "Nya~ I heard you are really good with the fingers, you really know how to touch a piano",
         [
-            ("What the fuck is wrong with you", piano_insult_resp),
+            ("What the heck?", piano_insult_resp),
             ("Yes I am really good at fingering passages", piano_horny_resp),
         ],
     )
