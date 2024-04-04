@@ -8,4 +8,4 @@ Run
 py main.py
 ```
 
-You will need pillow for some of the programs.
+You will need pillow and pygame for some of the programs.
