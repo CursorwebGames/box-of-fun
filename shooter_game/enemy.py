@@ -17,7 +17,7 @@ class Enemy:
         # todo: make harder
         # todo: qian
         # if sides < 3 die
-        self.sides = randint(3, 10)
+        self.sides = randint(3, 20)
 
         self.theta = 0
 
@@ -37,6 +37,9 @@ class Enemy:
         poly = pygame.transform.rotate(poly, self.theta)
         screen.blit(poly, poly.get_rect(center=(self.x, self.y)))
 
+    def get_rad(self):
+        return 5 * (self.sides if self.sides <= 10 else 10)
+
     def draw_poly(self, sides: int):
         surface = pygame.Surface((101, 101)).convert_alpha()
         surface.fill((0, 0, 0, 0))
@@ -50,17 +53,19 @@ class Enemy:
 
             # why is it sin, cos ... i have no idea
             # 5 * sides -> 10 * 5 = 50
-            x = 50 + (5 * sides) * sin(theta + pi)
-            y = 50 + (5 * sides) * cos(theta + pi)
+            x = 50 + self.get_rad() * sin(theta + pi)
+            y = 50 + self.get_rad() * cos(theta + pi)
 
             points.append((x, y))
 
         pygame.draw.polygon(
-            surface, self.darkest.lerp(self.lightest, sides / 10), points
+            surface,
+            self.darkest.lerp(self.lightest, (sides if sides <= 10 else 10) / 10),
+            points,
         )
 
         text = (big_font if sides >= 5 else small_font).render(
-            names[sides], True, (0, 0, 0)
+            names[sides if sides <= 11 else 11], True, (0, 0, 0)
         )
         offset = 15 if sides >= 5 else 8
         surface.blit(text, (50 - offset, 50 - offset))
