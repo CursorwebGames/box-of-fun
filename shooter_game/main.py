@@ -21,6 +21,8 @@ from enemy import Enemy
 from bullet import Bullet
 from stars import draw_stars
 
+from typing import Literal
+
 
 pygame.display.set_caption("Shooter Game")
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -35,10 +37,47 @@ enemies: list[Enemy] = []
 bullets: list[Bullet] = []
 
 game_font = pygame.font.SysFont("Kaiti", 25)
+title_font = pygame.font.SysFont("Consolas", 50)
+title_font2 = pygame.font.SysFont("Consolas", 30)
+title_font3 = pygame.font.SysFont("Kaiti", 40)
+
 
 mouse_pressed = False
 
-while running:
+scene = "menu"
+
+
+def menu():
+    global scene, running
+
+    # Events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+        if event.type == pygame.MOUSEBUTTONUP:
+            scene = "game"
+
+    screen.fill((1, 0, 51))
+    draw_stars(screen)
+
+    title = title_font.render("NUMBER SHOOTER", True, (255, 255, 255))
+    titlew = title.get_width()
+    screen.blit(title, (WIDTH / 2 - titlew / 2, 50))
+
+    title_cn = title_font3.render("数字射击游戏", True, (105, 152, 255))
+    title_cnw = title_cn.get_width()
+    screen.blit(title_cn, (WIDTH / 2 - title_cnw / 2, 100))
+
+    explain = title_font2.render("Click to begin", True, (189, 207, 217))
+    explainw = explain.get_width()
+    explainh = explain.get_height()
+    screen.blit(explain, (WIDTH / 2 - explainw / 2, HEIGHT - explainh - 20))
+
+
+def game():
+    global scene, running, mouse_pressed
+
     # Events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -79,6 +118,7 @@ while running:
         enemy = enemies[i]
 
         if enemy.y > HEIGHT + 50:
+            player.lives -= 1
             del enemies[i]
 
         if circle_col(player.get_pos(), 25, (enemy.x, enemy.y), enemy.get_rad()):
@@ -98,6 +138,9 @@ while running:
 
         enemy.draw(dt, screen)
 
+    if player.lives <= 0:
+        scene = "lose"
+
     score = game_font.render(f"分：{player.score}", True, (255, 255, 255))
     screen.blit(score, (0, 0))
 
@@ -116,6 +159,50 @@ while running:
                 (255, 255, 255, 125),
                 (lives.get_width() + i * 10, 25 + 12, 8, 10),
             )
+
+
+def lose():
+    global running, scene, player, enemies, bullets
+    screen.fill((1, 0, 51))
+    draw_stars(screen)
+
+    title = title_font.render("GAME OVER!!", True, (255, 255, 255))
+    titlew = title.get_width()
+    screen.blit(title, (WIDTH / 2 - titlew / 2, 50))
+
+    title_cn = title_font3.render("游戏结束了！", True, (105, 152, 255))
+    title_cnw = title_cn.get_width()
+    screen.blit(title_cn, (WIDTH / 2 - title_cnw / 2, 100))
+
+    score_display = title_font.render(f"Score: {player.score}", True, (255, 205, 97))
+    score_displayw = score_display.get_width()
+    screen.blit(score_display, (WIDTH / 2 - score_displayw / 2, 300))
+
+    explain = title_font2.render("Click to go to menu", True, (189, 207, 217))
+    explainw = explain.get_width()
+    explainh = explain.get_height()
+    screen.blit(explain, (WIDTH / 2 - explainw / 2, HEIGHT - explainh - 20))
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+        if event.type == pygame.MOUSEBUTTONUP:
+            player = Player()
+            enemies = []
+            bullets = []
+            scene = "menu"
+
+
+while running:
+    if scene == "menu":
+        menu()
+
+    if scene == "game":
+        game()
+
+    if scene == "lose":
+        lose()
 
     # Updating
     pygame.display.flip()
