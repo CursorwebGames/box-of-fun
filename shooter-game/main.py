@@ -31,6 +31,7 @@ clock = pygame.time.Clock()
 
 running = True
 dt = 0
+lose_menu_pause = 1
 
 player = Player()
 enemies: list[Enemy] = []
@@ -162,7 +163,7 @@ def game():
 
 
 def lose():
-    global running, scene, player, enemies, bullets
+    global running, scene, player, enemies, bullets, lose_menu_pause
     screen.fill((1, 0, 51))
     draw_stars(screen)
 
@@ -183,15 +184,18 @@ def lose():
     explainh = explain.get_height()
     screen.blit(explain, (WIDTH / 2 - explainw / 2, HEIGHT - explainh - 20))
 
+    lose_menu_pause -= dt
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-        if event.type == pygame.MOUSEBUTTONUP:
+        if event.type == pygame.MOUSEBUTTONUP and lose_menu_pause <= 0:
             player = Player()
             enemies = []
             bullets = []
             scene = "menu"
+            lose_menu_pause = 1
 
 
 while running:

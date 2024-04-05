@@ -13,6 +13,7 @@ programs = [
     ),
     ("gf game", "gf-game"),
     ("parametric gif generator", "parametric"),
+    ("shooter game", "shooter-game"),
 ]
 
 while True:
